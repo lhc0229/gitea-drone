@@ -1,0 +1,36 @@
+kind: pipeline
+type: docker
+name: gitea-drone
+
+trigger:
+  ref:
+    - refs/tags/**
+
+steps:
+  - name: install
+    image: node:18.20.8
+    commands:
+      - npm config set registry https://registry.npmmirror.com
+      - npm i
+
+  - name: build-push
+    image: docker:20.10.16
+    environment:
+      DOCKER_BUILDKIT: 1
+      docker_username:
+        from_secret: docker_username
+      docker_password:
+        from_secret: docker_password
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+    commands:
+      - docker build -t gitea-drone:${DRONE_TAG} .
+      - docker login ccr.ccs.tencentyun.com -u "$${docker_username}" -p "$${docker_password}"
+      - docker tag gitea-drone:${DRONE_TAG} ccr.ccs.tencentyun.com/free-soul/gitea-drone:${DRONE_TAG}
+      - docker push ccr.ccs.tencentyun.com/free-soul/gitea-drone:${DRONE_TAG}
+
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/docker.sock
