@@ -74,7 +74,7 @@ const env = {
     port: '3306',
     username: 'username',
     password: 'password',
-    gitea_db_name: 'gitea-drone',
+    gitea_db_name: 'gitea-drone', // 存放gitea数据的数据库名称
   },
 };
 
@@ -85,10 +85,10 @@ module.exports = env;
 
 ## 部署方式
 
-```bash
+```shell
 # 注意事项
-#		1. gitea-drone容器运行时会删除容器名称为gitea，drone，drone_runner_docker这三个容器
-#		2. gitea-drone容器运行时会先删除gitea绑定的数据库，然后再重新创建gitea绑定的数据库
+#	1. gitea-drone容器运行时会删除容器名称为gitea，drone，drone_runner_docker这三个容器
+#	2. gitea-drone容器运行时会先删除gitea绑定的数据库，然后再重新创建gitea绑定的数据库
 
 # 拉取镜像
 docker pull ccr.ccs.tencentyun.com/free-soul/gitea-drone:V1.0.0
