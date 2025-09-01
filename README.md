@@ -93,7 +93,8 @@ module.exports = env;
 # 拉取镜像
 docker pull ccr.ccs.tencentyun.com/free-soul/gitea-drone:V1.0.0
 
-# 运行容器
+# 运行容器 
+# 注意: 宿主机的端口需要和配置文件gitea-env/index.js里面port一致，容器默认暴露端口8001
 docker run -p 8001:8001 -d --name gitea-drone -v /gitea-env:/app/env -v /gitea-puppeteer:/app/puppeteer -v /var/run/docker.sock:/var/run/docker.sock ccr.ccs.tencentyun.com/free-soul/gitea-drone:V1.0.0
 
 # 查看控制台日志，预计5分钟之内部署完成，看到控制台输出 gitea drone部署成功 说明部署成功
